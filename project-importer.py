@@ -172,7 +172,7 @@ class XnatImporter:
                         auth=(auth_info[0], auth_info[1]), 
                         verify=False)
 
-                    if r.stat_code == 200:
+                    if r.status_code == 200:
                         logging.info('upload ' + base_filename + ' successuflly!')
                         logging.info(r.text)
                     else:
@@ -201,7 +201,7 @@ class XnatImporter:
                         auth=(auth_info[0], auth_info[1]), 
                         verify=False)
 
-                    if r.stat_code == 200:
+                    if r.status_code == 200:
                         logging.info('upload ' + base_filename + ' successuflly!')
                         logging.info(r.text)
                     else:
