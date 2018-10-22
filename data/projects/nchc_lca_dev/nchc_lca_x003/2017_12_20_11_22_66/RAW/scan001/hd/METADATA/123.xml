@@ -1,0 +1,612 @@
+<ImageAnnotationCollection xmlns="gme://caCORE.caCORE/4.4/edu.northwestern.radiology.AIM" aimVersion="AIMv4_0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="gme://caCORE.caCORE/4.4/edu.northwestern.radiology.AIM AIM_v4_rv44_XML.xsd">
+
+  <uniqueIdentifier root="2.25.208805039793048596335596462455698616845"/>
+
+  <dateTime value="20180912011446"/>
+
+  <user>
+    <name value="user"/>
+    <loginName value="user0"/>
+    <roleInTrial value="Standby"/>
+    <numberWithinRoleOfClinicalTrial value="1"/>
+  </user>
+
+  <equipment>
+    <manufacturerName value="Northwestern University"/>
+    <manufacturerModelName value="AIM_NU_WS_v4"/>
+    <softwareVersion value="4.5.0.0"/>
+  </equipment>
+
+  <person>
+    <name value="Doe^Harry"/>
+    <id value="24759123"/>
+    <sex value="M"/>
+  </person>
+
+  <imageAnnotations>
+    <ImageAnnotation>
+      <uniqueIdentifier root="2.25.180538474021478320488564600906887748005"/>
+      <typeCode code="99PRI_TC_0A23" codeSystemName="thomas_code" codeSystemVersion="1.0">
+        <iso:displayName xmlns:iso="uri:iso.org:21090" value="VARSARI"/>
+      </typeCode>
+      <dateTime value="20180912011446"/>
+      <name value="24759123_user_2018-09-12 01:14:21 ??"/>
+      <comment value="AimTemplateContainerUid=2.25.688574657534358879644913128696602312345,AimTemplateUid=2.25.121956847538435828797649490133125867968"/>
+      <templateUid root="2.25.121956847538435828797649490133125867968"/>
+      <imagingPhysicalEntityCollection>
+        <ImagingPhysicalEntity>
+          <uniqueIdentifier root="2.25.332724834208354551384827550423189913529"/>
+          <typeCode code="RID6476" codeSystemName="RadLex">
+            <iso:displayName xmlns:iso="uri:iso.org:21090" value="Temporal lobe"/>
+          </typeCode>
+          <isPresent value="true"/>
+          <label value="Tumor Location"/>
+          <questionIndex value="1"/>
+          <imagingPhysicalEntityCharacteristicCollection>
+            <ImagingPhysicalEntityCharacteristic>
+              <typeCode code="G-A102" codeSystemName="SRT">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Center/Bilateral"/>
+              </typeCode>
+              <label value="Side of Tumor Center"/>
+              <questionIndex value="1"/>
+            </ImagingPhysicalEntityCharacteristic>
+          </imagingPhysicalEntityCharacteristicCollection>
+        </ImagingPhysicalEntity>
+      </imagingPhysicalEntityCollection>
+      <calculationEntityCollection>
+        <CalculationEntity>
+          <uniqueIdentifier root="2.25.85418405640848774030676083081174316400"/>
+          <typeCode code="G-A166" codeSystemName="SRT">
+            <iso:displayName xmlns:iso="uri:iso.org:21090" value="Area"/>
+          </typeCode>
+          <description value="Area"/>
+          <calculationResultCollection>
+            <CalculationResult type="Scalar" xsi:type="ExtendedCalculationResult">
+              <unitOfMeasure value="pixel"/>
+              <dataType code="C48870" codeSystemName="NCI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Double"/>
+              </dataType>
+              <dimensionCollection>
+                <Dimension>
+                  <index value="0"/>
+                  <size value="1"/>
+                  <label value="Value"/>
+                </Dimension>
+              </dimensionCollection>
+              <calculationDataCollection>
+                <CalculationData>
+                  <value value="10602.1093354877"/>
+                  <coordinateCollection>
+                    <Coordinate>
+                      <dimensionIndex value="0"/>
+                      <position value="0"/>
+                    </Coordinate>
+                  </coordinateCollection>
+                </CalculationData>
+              </calculationDataCollection>
+            </CalculationResult>
+          </calculationResultCollection>
+        </CalculationEntity>
+        <CalculationEntity>
+          <uniqueIdentifier root="2.25.214604229360922479044321962139446926835"/>
+          <typeCode code="R-00317" codeSystemName="SRT">
+            <iso:displayName xmlns:iso="uri:iso.org:21090" value="Mean"/>
+          </typeCode>
+          <description value="Mean"/>
+          <calculationResultCollection>
+            <CalculationResult type="Scalar" xsi:type="ExtendedCalculationResult">
+              <unitOfMeasure value="1"/>
+              <dataType code="C48870" codeSystemName="NCI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Double"/>
+              </dataType>
+              <dimensionCollection>
+                <Dimension>
+                  <index value="0"/>
+                  <size value="1"/>
+                  <label value="Value"/>
+                </Dimension>
+              </dimensionCollection>
+              <calculationDataCollection>
+                <CalculationData>
+                  <value value="90.5355897049119"/>
+                  <coordinateCollection>
+                    <Coordinate>
+                      <dimensionIndex value="0"/>
+                      <position value="0"/>
+                    </Coordinate>
+                  </coordinateCollection>
+                </CalculationData>
+              </calculationDataCollection>
+            </CalculationResult>
+          </calculationResultCollection>
+        </CalculationEntity>
+        <CalculationEntity>
+          <uniqueIdentifier root="2.25.214604229360922479044321962139446926835"/>
+          <typeCode code="R-10047" codeSystemName="SRT">
+            <iso:displayName xmlns:iso="uri:iso.org:21090" value="Standard Deviation"/>
+          </typeCode>
+          <description value="Standard Deviation"/>
+          <calculationResultCollection>
+            <CalculationResult type="Scalar" xsi:type="ExtendedCalculationResult">
+              <unitOfMeasure value="1"/>
+              <dataType code="C48870" codeSystemName="NCI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Double"/>
+              </dataType>
+              <dimensionCollection>
+                <Dimension>
+                  <index value="0"/>
+                  <size value="1"/>
+                  <label value="Value"/>
+                </Dimension>
+              </dimensionCollection>
+              <calculationDataCollection>
+                <CalculationData>
+                  <value value="45.580887042585"/>
+                  <coordinateCollection>
+                    <Coordinate>
+                      <dimensionIndex value="0"/>
+                      <position value="0"/>
+                    </Coordinate>
+                  </coordinateCollection>
+                </CalculationData>
+              </calculationDataCollection>
+            </CalculationResult>
+          </calculationResultCollection>
+        </CalculationEntity>
+      </calculationEntityCollection>
+      <inferenceEntityCollection>
+        <InferenceEntity>
+          <uniqueIdentifier root="2.25.29450055446508175109716651698602731659"/>
+          <imageEvidence value="true"/>
+          <isPresent value="true"/>
+          <typeCode code="88" codeSystemName="VASARI">
+            <iso:displayName xmlns:iso="uri:iso.org:21090" value="Eloquent Brain : Motor"/>
+          </typeCode>
+          <label value="Eloquent Brain"/>
+          <questionIndex value="3"/>
+        </InferenceEntity>
+      </inferenceEntityCollection>
+      <imagingObservationEntityCollection>
+        <ImagingObservationEntity>
+          <uniqueIdentifier root="2.25.264522391321786801446776631771195837403"/>
+          <typeCode code="RID3874" codeSystemName="RadLex">
+            <iso:displayName xmlns:iso="uri:iso.org:21090" value="mass"/>
+          </typeCode>
+          <annotatorConfidence value="1"/>
+          <label value="Lesion"/>
+          <isPresent value="true"/>
+          <questionIndex value="2"/>
+          <imagingObservationCharacteristicCollection>
+            <ImagingObservationCharacteristic>
+              <typeCode code="67-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Enhancement Quality"/>
+              </typeCode>
+              <label value="Enhancement Quality"/>
+              <questionIndex value="1"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Enhancement Quality Characteristic Quantification"/>
+                  <typeCode code="R-404FA" codeSystemName="SRT">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Mild"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="59-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Proportion Enhancing"/>
+              </typeCode>
+              <label value="Proportion Enhancing"/>
+              <questionIndex value="2"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Percent Proportion Enhancing Characteristic Quantification"/>
+                  <typeCode code="C48658" codeSystemName="NCI">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Indeterminate"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="19-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Proportion nCET"/>
+              </typeCode>
+              <label value="Proportion nCET"/>
+              <questionIndex value="3"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Percent Proportion nCET Characteristic Quantification"/>
+                  <typeCode code="C48658" codeSystemName="NCI">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Indeterminate"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="49-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Proportion Necrosis"/>
+              </typeCode>
+              <label value="Proportion Necrosis"/>
+              <questionIndex value="4"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification maxOperator="Equal" minOperator="Equal" xsi:type="Interval">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Percent Necrosis Characteristic Quantification"/>
+                  <minValue value="0"/>
+                  <maxValue value="0"/>
+                  <ucumString value="%"/>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="34-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Proportion of Edema"/>
+              </typeCode>
+              <label value="Proportion of Edema"/>
+              <questionIndex value="5"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification maxOperator="LessThanEqual" minOperator="GreaterThanEqual" xsi:type="Interval">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Percent Proportion of Edema Characteristic Quantification"/>
+                  <minValue value="34"/>
+                  <maxValue value="67"/>
+                  <ucumString value="%"/>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="80-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Cyst"/>
+              </typeCode>
+              <label value="Cysts"/>
+              <questionIndex value="6"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Cyst Characteristic Quantification"/>
+                  <typeCode code="G-A203" codeSystemName="SRT">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Present"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="13" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Multifocal or Multicentric"/>
+              </typeCode>
+              <label value="Multifocal or Multicentric"/>
+              <questionIndex value="7"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Multifocal or Multicentric Characteristic Quantification"/>
+                  <typeCode code="R-40353" codeSystemName="SRT">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Multicentric"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="90-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="T1/FLAIR ratio"/>
+              </typeCode>
+              <label value="T1/FLAIR Ratio"/>
+              <questionIndex value="8"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="T1/FLAIR Characteristic Quantification"/>
+                  <typeCode code="90" codeSystemName="VASARI">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Expansive "/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="01-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Thickness of Enhancing Margin"/>
+              </typeCode>
+              <label value="Thickness of Enhancing Margin"/>
+              <questionIndex value="9"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Thickness of Enhancing Margin Characteristic Quantification"/>
+                  <typeCode code="R-40775" codeSystemName="SRT">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="None"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="12" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Enhancing Margin Definition"/>
+              </typeCode>
+              <label value="Definition of the Enhancing Margin"/>
+              <questionIndex value="10"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Enhancing Margin Definition Characteristic Quantification"/>
+                  <typeCode code="C81187" codeSystemName="NCI">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Well-defined"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="70" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Definition of the Non-Enhancing Margin"/>
+              </typeCode>
+              <annotatorConfidence value="1"/>
+              <label value="Definition of the Non-Enhancing Margin"/>
+              <questionIndex value="11"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Definition of the Non-Enhancing Margin Characteristic Quantification"/>
+                  <typeCode code="71" codeSystemName="VASARI">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Well-defined"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+            <ImagingObservationCharacteristic>
+              <typeCode code="81-1" codeSystemName="VASARI">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="Hemorrhage"/>
+              </typeCode>
+              <label value="Hemorrhage"/>
+              <questionIndex value="12"/>
+              <characteristicQuantificationCollection>
+                <CharacteristicQuantification xsi:type="NonQuantifiable">
+                  <characteristicQuantificationIndex value="0"/>
+                  <label value="Hemorrhage Characteristic Quantification"/>
+                  <typeCode code="G-A203" codeSystemName="SRT">
+                    <iso:displayName xmlns:iso="uri:iso.org:21090" value="Present"/>
+                  </typeCode>
+                </CharacteristicQuantification>
+              </characteristicQuantificationCollection>
+            </ImagingObservationCharacteristic>
+          </imagingObservationCharacteristicCollection>
+        </ImagingObservationEntity>
+      </imagingObservationEntityCollection>
+      <markupEntityCollection>
+        <MarkupEntity xsi:type="TwoDimensionPolyline">
+          <uniqueIdentifier root="2.25.221647425209755907522281915711201658738"/>
+          <shapeIdentifier value="0"/>
+          <includeFlag value="true"/>
+          <imageReferenceUid root="1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.112"/>
+          <referencedFrameNumber value="1"/>
+          <twoDimensionSpatialCoordinateCollection>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="0"/>
+              <x value="830.910400390625"/>
+              <y value="778.837463378906"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="1"/>
+              <x value="821.610900878906"/>
+              <y value="771.86279296875"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="2"/>
+              <x value="814.63623046875"/>
+              <y value="762.563232421875"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="3"/>
+              <x value="807.661560058594"/>
+              <y value="755.588562011719"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="4"/>
+              <x value="805.336669921875"/>
+              <y value="748.613952636719"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="5"/>
+              <x value="805.336669921875"/>
+              <y value="736.989501953125"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="6"/>
+              <x value="805.336669921875"/>
+              <y value="727.68994140625"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="7"/>
+              <x value="807.661560058594"/>
+              <y value="720.715270996094"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="8"/>
+              <x value="809.986450195313"/>
+              <y value="713.740600585938"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="9"/>
+              <x value="812.311340332031"/>
+              <y value="706.765930175781"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="10"/>
+              <x value="814.63623046875"/>
+              <y value="699.791259765625"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="11"/>
+              <x value="819.286010742188"/>
+              <y value="692.816589355469"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="12"/>
+              <x value="830.910400390625"/>
+              <y value="685.841918945313"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="13"/>
+              <x value="842.534851074219"/>
+              <y value="681.192199707031"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="14"/>
+              <x value="856.484191894531"/>
+              <y value="678.867309570313"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="15"/>
+              <x value="868.108642578125"/>
+              <y value="678.867309570313"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="16"/>
+              <x value="875.083312988281"/>
+              <y value="678.867309570313"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="17"/>
+              <x value="882.057983398438"/>
+              <y value="681.192199707031"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="18"/>
+              <x value="889.032653808594"/>
+              <y value="681.192199707031"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="19"/>
+              <x value="896.007263183594"/>
+              <y value="685.841918945313"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="20"/>
+              <x value="902.98193359375"/>
+              <y value="690.49169921875"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="21"/>
+              <x value="912.281494140625"/>
+              <y value="697.466369628906"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="22"/>
+              <x value="921.5810546875"/>
+              <y value="709.0908203125"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="23"/>
+              <x value="928.555725097656"/>
+              <y value="718.390380859375"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="24"/>
+              <x value="933.205505371094"/>
+              <y value="725.365051269531"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="25"/>
+              <x value="935.530395507813"/>
+              <y value="734.664611816406"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="26"/>
+              <x value="935.530395507813"/>
+              <y value="743.964172363281"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="27"/>
+              <x value="933.205505371094"/>
+              <y value="750.938781738281"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="28"/>
+              <x value="926.230834960938"/>
+              <y value="757.913452148438"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="29"/>
+              <x value="921.5810546875"/>
+              <y value="764.888122558594"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="30"/>
+              <x value="914.606384277344"/>
+              <y value="767.213012695313"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="31"/>
+              <x value="907.631713867188"/>
+              <y value="769.537902832031"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="32"/>
+              <x value="898.332153320313"/>
+              <y value="774.187683105469"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="33"/>
+              <x value="884.382873535156"/>
+              <y value="776.512573242188"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="34"/>
+              <x value="870.433532714844"/>
+              <y value="781.162353515625"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="35"/>
+              <x value="858.80908203125"/>
+              <y value="781.162353515625"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="36"/>
+              <x value="851.834411621094"/>
+              <y value="783.487243652344"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="37"/>
+              <x value="844.859741210938"/>
+              <y value="785.812133789063"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="38"/>
+              <x value="837.885070800781"/>
+              <y value="783.487243652344"/>
+            </TwoDimensionSpatialCoordinate>
+            <TwoDimensionSpatialCoordinate>
+              <coordinateIndex value="39"/>
+              <x value="830.910400390625"/>
+              <y value="778.837463378906"/>
+            </TwoDimensionSpatialCoordinate>
+          </twoDimensionSpatialCoordinateCollection>
+        </MarkupEntity>
+      </markupEntityCollection>
+      <imageReferenceEntityCollection>
+        <ImageReferenceEntity xsi:type="DicomImageReferenceEntity">
+          <uniqueIdentifier root="2.25.21925257655295502787773190479912174661"/>
+          <imageStudy>
+            <instanceUid root="1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.1"/>
+            <startDate value="20010101"/>
+            <startTime value="000000"/>
+            <imageSeries>
+              <instanceUid root="1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.111"/>
+              <modality code="OT" codeSystemName="DCM">
+                <iso:displayName xmlns:iso="uri:iso.org:21090" value="OT"/>
+              </modality>
+              <imageCollection>
+                <Image>
+                  <sopClassUid root="1.2.840.10008.5.1.4.1.1.7"/>
+                  <sopInstanceUid root="1.3.6.1.4.1.5962.1.1.0.0.0.1194732126.13032.0.112"/>
+                </Image>
+              </imageCollection>
+            </imageSeries>
+          </imageStudy>
+        </ImageReferenceEntity>
+      </imageReferenceEntityCollection>
+    </ImageAnnotation>
+  </imageAnnotations>
+
+</ImageAnnotationCollection>
