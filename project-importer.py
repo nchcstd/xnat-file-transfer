@@ -31,7 +31,7 @@ import csv
 import sys
 from lxml import etree
 
-VER=0.2
+VER=0.3
 
 try:
     import requests
