@@ -33,7 +33,7 @@ requests.packages.urllib3.disable_warnings()
 
 class XnatImporter:  
     XNAT_CONF_NAME = 'config.ini'
-    XNAT_BASE_URL = 'https://dmxnat.nchc.org.tw'
+    XNAT_BASE_URL = 'http://140.110.28.227'
     AIM_SCHEMA_XSD = 'data/AIM_v4_rv44_XML.xsd'
 
     def __init__(self):
@@ -79,6 +79,8 @@ class XnatImporter:
         file_full_names = self.build_full_file_path(dir_info)
 
         logging.info(dir_info)
+
+        enabled_data_type = ['cr', 'ct', 'mr', 'hd']
         
         params = {
             'project_id': dir_structure[start_pos + 1],
@@ -86,15 +88,22 @@ class XnatImporter:
             'session_id': dir_structure[start_pos + 3],
             'session_data_type': dir_structure[start_pos + 4] ,
             'scan_id': dir_structure[start_pos + 5],
-            'xnat_data_type': dir_structure[start_pos + 6],
+            'xnat_data_type': dir_structure[start_pos + 6]+'ScanData',
+            'data_type': dir_structure[start_pos + 6],
             'scan_data_type': dir_structure[start_pos + 7],
             'file_names': file_full_names
         }
 
+        params['session_id'] = params['subject_id']+'_'+params['session_id']
+        if params['data_type'] not in enabled_data_type:
+            params['data_type'] = 'otherDicom'
+
+        print(params)
         return params
 
     def xnat_create_project(self, params, auth_info):
         api_url = '/'.join([self.XNAT_BASE_URL, 'data', 'projects', params['project_id']])
+        print(api_url)
         r = requests.put(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
         if r.status_code == 200:
             logging.info('create project successfully!')
@@ -116,8 +125,9 @@ class XnatImporter:
     def xnat_create_session(self, params, auth_info):
         dateobj = datetime.date.today()
         date_str = dateobj.isoformat()
-        query_params = '?xnat:mrSessionData/date=' + date_str
+        query_params = '?xnat:'+params['data_type']+'SessionData/date=' + date_str
         api_url = '/'.join([self.XNAT_BASE_URL, 'data', 'projects', params['project_id'], 'subjects', params['subject_id'], 'experiments', params['session_id'] + query_params])
+        print(api_url)
         r = requests.put(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
         if r.status_code == 200:
             logging.info('create session successfully!')
@@ -127,7 +137,8 @@ class XnatImporter:
             logging.error(r.text)
 
     def xnat_create_scan(self, params, auth_info):
-        query_params = '?xsiType=xnat:' + params['xnat_data_type'] + '&xnat:' + params['xnat_data_type'] + '/type=' + params['scan_data_type'] 
+        #query_params = '?xsiType=xnat:' + params['xnat_data_type'] + '&xnat:' + params['xnat_data_type'] + '/type=' + params['scan_data_type'] 
+        query_params = '?xsiType=xnat:' + params['xnat_data_type'] 
         api_url = '/'.join([
                             self.XNAT_BASE_URL, 'data', 
                             'projects', params['project_id'], 
@@ -135,6 +146,7 @@ class XnatImporter:
                             'experiments', params['session_id'], 
                             'scans', params['scan_id'] + query_params
         ])
+        print(api_url)
         r = requests.put(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
         if r.status_code == 200:
             logging.info('create scan successfully!')
@@ -142,7 +154,7 @@ class XnatImporter:
             logging.info('please check the status of xnat_create_scan')
     
     def xnat_create_resource_for_scan(self, params, auth_info):
-        if params['session_data_type'] == 'RAW':
+        if params['session_data_type'] == 'DICOM':
             api_url = '/'.join([
                                 self.XNAT_BASE_URL, 'data', 
                                 'projects', params['project_id'], 
@@ -163,6 +175,30 @@ class XnatImporter:
                                 'reconstructions/' + params['scan_id'] + '/resources/NIFTI?format=NIFTI',
             ])
             r = requests.put(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
+
+        elif params['session_data_type'] == 'RAW':
+            api_url = '/'.join([
+                                self.XNAT_BASE_URL, 'data', 
+                                'projects', params['project_id'], 
+                                'subjects', params['subject_id'], 
+                                'experiments', params['session_id'], 
+                                'scans', params['scan_id'],
+                                'resources/DICOM',
+            ])
+            print(api_url)
+            r = requests.put(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
+            api_url = '/'.join([
+                                self.XNAT_BASE_URL, 'data', 
+                                'projects', params['project_id'], 
+                                'subjects', params['subject_id'], 
+                                'experiments', params['session_id'], 
+                                'scans', params['scan_id'],
+                                'resources/METADATA',
+            ])
+            print(api_url)
+            r = requests.put(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
+
+
 
         if r.status_code == 200:
             logging.info('create resource successfully!')
@@ -206,8 +242,11 @@ class XnatImporter:
                 base_filename = os.path.basename(file_name)
 
                 logging.info('File Extension: ' + base_filename[-3:])
+                abspardir = os.path.abspath(os.path.join(file_name, os.pardir))
+                pardir = os.path.basename(abspardir)
 
-                if base_filename[-3:] == 'dcm':
+                #if base_filename[-3:] == 'dcm':
+                if pardir == 'DICOM':
                     api_url = '/'.join([
                                         self.XNAT_BASE_URL, 'data', 
                                         'projects', params['project_id'], 
@@ -216,6 +255,15 @@ class XnatImporter:
                                         'scans', params['scan_id'],
                                         'resources/DICOM/files/' + base_filename
                     ])
+                elif pardir == 'METADATA':
+                    api_url = '/'.join([
+                                        self.XNAT_BASE_URL, 'data', 
+                                        'projects', params['project_id'], 
+                                        'subjects', params['subject_id'],
+                                        'experiments', params['session_id'], 
+                                        'scans', params['scan_id'],
+                                        'resources/METADATA/files/' + base_filename
+                    ])
                 else:
                     api_url = '/'.join([
                                         self.XNAT_BASE_URL, 'data', 
@@ -223,10 +271,10 @@ class XnatImporter:
                                         'subjects', params['subject_id'],
                                         'experiments', params['session_id'], 
                                         'scans', params['scan_id'],
-                                        'files/' + base_filename
+                                        'resources/OTHERS/files/' + base_filename
                     ])
 
-                if base_filename[-3:] == 'xml':
+                if base_filename[-3:] == 'xml' and pardir == 'METADATA':
                     # verify xml
                     if not self.verify_xml(file_name):
                         self.results['fail'].append([file_name, 'xml validate failed'])
