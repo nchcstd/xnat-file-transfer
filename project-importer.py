@@ -19,7 +19,10 @@ import pprint
 import subprocess
 import traceback
 import csv
+import sys
 from lxml import etree
+
+VER=0.2
 
 try:
     import requests
@@ -353,6 +356,8 @@ class XnatImporter:
 
 
 if __name__ == '__main__':
+    progName=sys.argv[0]
+    print("{0} ({1}): ready to import files.".format(progName, VER))
     xnat_importer = XnatImporter()
 
     pprint.pprint(xnat_importer.results)
