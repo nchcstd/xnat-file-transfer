@@ -26,6 +26,8 @@ class XnatExport:
         data_dirs = self.scan_root_dir() 
         data_dir = data_dirs[0]
         self.auth_info = self.load_config(data_dir)
+        self.session_id = None
+        self.authErr = 0
         #self.listProjects(auth_info)
 
     def scan_root_dir(self): 
@@ -58,16 +60,43 @@ class XnatExport:
         except:
             raise
 
-    def xnatapi(self, api):
+    def session_request(self):
+        if self.authErr >= 2:
+            raise
+
         auth_info = self.auth_info
+        api_url = '/'.join([self.XNAT_BASE_URL, 'data', 'JSESSION'])
+        r = requests.get(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
+        if r.status_code < 400:
+            self.session_id = r.text
+            self.authErr = 0
+            return True
+        elif r.status_code == 401:
+            logging.error('please check the status of api {0}'.format(api_url))
+            logging.error(r.status_code)
+            logging.error(r.text)
+            print(r.text)
+            self.authErr = self.authErr + 1
+            raise EOFError
+        else:
+            logging.error('please check the status of api {0}'.format(api_url))
+            logging.error(r.status_code)
+            logging.error(r.text)
+            print(r.text)
+            raise EOFError
+
+    def xnatapi(self, api):
+        cookies = dict(JSESSIONID=self.session_id)
         api_url = '/'.join([self.XNAT_BASE_URL, 'data', api])
         api_url = "{0}?format=json".format(api_url)
         print(api_url)
 
-        r = requests.get(api_url, auth=(
-            auth_info[0], auth_info[1]), verify=False)
+        r = requests.get(api_url, cookies=cookies, verify=False)
         if r.status_code < 400:
             logging.info('api:{0} successfully!'.format(api_url))
+        elif r.status_code == 401:
+            if self.session_request() == True:
+                return self.xnatapi(api)
         else:
             logging.error('please check the status of api {0}'.format(api_url))
             logging.error(r.status_code)
