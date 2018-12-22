@@ -490,4 +490,5 @@ if __name__ == '__main__':
 
     pprint.pprint(xnat_importer.results)
 
+    print("{0} ({1}): import files finish".format(progName, VER))
     xnat_importer.output_result_csv()
