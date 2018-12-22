@@ -7,6 +7,8 @@ import datetime
 import configparser
 import os
 import pdb
+import sys
+import logging
 """
 Assume user put the data in this directory structure
 /<whatever>/projects/<project_ID>/<subject_ID>/<session_ID>/<session_data_type>/<scan_id>/<xant_data_type>/<scan_data_type>.
@@ -17,21 +19,9 @@ session_data_type:
  
 """
 
-import logging
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.ERROR)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
-import pdb
-import os
-import configparser
-import datetime
-import pprint
-import subprocess
-import traceback
-import csv
-import sys
-from lxml import etree
-
-VER=0.3
+VER=0.4
 
 try:
     import requests
@@ -50,11 +40,17 @@ class XnatImporter:
 
     def __init__(self):
         self.results = {
+            'exist': [],
             'success': [],
             'fail': []
         }
 
         data_dirs = self.scan_root_dir()
+        data_dir = data_dirs[0]
+        self.auth_info = self.load_config(data_dir)
+        self.session_id = None
+        self.authErr = 0
+        self.scanExist = 0
         self.push_data_to_xnat(data_dirs)
 
     def scan_root_dir(self):
@@ -87,6 +83,62 @@ class XnatImporter:
         except:
             raise
 
+    def session_request(self):
+        if self.authErr >= 2:
+            raise
+
+        auth_info = self.auth_info
+        api_url = '/'.join([self.XNAT_BASE_URL, 'data', 'JSESSION'])
+        r = requests.get(api_url, auth=(auth_info[0], auth_info[1]), verify=False)
+        if r.status_code < 400:
+            self.session_id = r.text
+            self.authErr = 0
+            return True
+        elif r.status_code == 401:
+            logging.error('please check the status of api {0}'.format(api_url))
+            logging.error(r.status_code)
+            logging.error(r.text)
+            print(r.text)
+            self.authErr = self.authErr + 1
+            raise EOFError
+        else:
+            logging.error('please check the status of api {0}'.format(api_url))
+            logging.error(r.status_code)
+            logging.error(r.text)
+            print(r.text)
+            raise EOFError
+
+    def xnatapi(self, api, action='get', raw=0):
+        cookies = dict(JSESSIONID=self.session_id)
+        api_url = api
+        #print(api_url)
+
+        if action == 'get':
+            api_url = '{0}?format=json'.format(api_url)
+            r = requests.get(api_url, cookies=cookies, verify=False)
+        elif action == 'put':
+            r = requests.put(api_url, cookies=cookies, verify=False)
+        else:
+            logging.error('please check api action {0}'.format(action))
+            raise EOFError
+
+        if r.status_code < 400:
+            logging.info('api:{0} successfully!'.format(api_url))
+            if raw == 1:
+                return r
+        elif r.status_code == 401:
+            if self.session_request() == True:
+                return self.xnatapi(api, action, raw)
+        else:
+            if raw == 1:
+                return r
+            logging.error('please check the status of api {0}'.format(api_url))
+            logging.error(r.status_code)
+            logging.error(r.text)
+            print(r.text)
+            raise
+        return r.json()
+
     def build_full_file_path(self, dir_info):
         return [os.path.join(dir_info[0], file_name) for file_name in dir_info[2]]
 
@@ -114,18 +166,15 @@ class XnatImporter:
         params['session_id'] = params['subject_id'] + '_' + params['session_id']
         if params['data_type'] not in enabled_data_type:
             params['data_type'] = 'otherDicom'
-
-        #print(params)
+            params['scan_data_type'] = 'otherDicom'
 
         return params
 
     def xnat_create_project(self, params, auth_info):
         api_url = '/'.join([self.XNAT_BASE_URL, 'data',
                             'projects', params['project_id']])
-        #print(api_url)
 
-        r = requests.put(api_url, auth=(
-            auth_info[0], auth_info[1]), verify=False)
+        r = self.xnatapi(api_url, 'put', 1)
         if r.status_code < 400:
             logging.info('create project successfully!')
         else:
@@ -136,8 +185,14 @@ class XnatImporter:
     def xnat_create_subject(self, params, auth_info):
         api_url = '/'.join([self.XNAT_BASE_URL, 'data', 'projects',
                             params['project_id'], 'subjects', params['subject_id']])
-        r = requests.put(api_url, auth=(
-            auth_info[0], auth_info[1]), verify=False)
+        r = self.xnatapi(api_url, 'get',  1)
+        if r.status_code == 200:
+            logging.info('{0} exist!'.format(api_url))
+            return
+
+        #r = requests.put(api_url, auth=(
+        #    auth_info[0], auth_info[1]), verify=False)
+        r = self.xnatapi(api_url, 'put',  1)
         if r.status_code < 400:
             logging.info('create subject successfully!')
         else:
@@ -151,11 +206,15 @@ class XnatImporter:
         query_params = '?xnat:' + \
             params['data_type']+'SessionData/date=' + date_str
         api_url = '/'.join([self.XNAT_BASE_URL, 'data', 'projects', params['project_id'],
-                            'subjects', params['subject_id'], 'experiments', params['session_id'] + query_params])
-        #print(api_url)
+                            'subjects', params['subject_id'], 'experiments', params['session_id']])
 
-        r = requests.put(api_url, auth=(
-            auth_info[0], auth_info[1]), verify=False)
+        r = self.xnatapi(api_url, 'get', 1)
+        if r.status_code == 200:
+            logging.info('{0} exist!'.format(api_url))
+            return
+
+        api_url = api_url + query_params
+        r = self.xnatapi(api_url, 'put', 1)
         if r.status_code < 400:
             logging.info('create session successfully!')
         else:
@@ -171,12 +230,18 @@ class XnatImporter:
             'projects', params['project_id'],
             'subjects', params['subject_id'],
             'experiments', params['session_id'],
-            'scans', params['scan_id'] + query_params
+            'scans', params['scan_id']
         ])
-        #print(api_url)
+        r = self.xnatapi(api_url, 'get', 1)
+        if r.status_code == 200:
+            logging.info('{0} exist!'.format(api_url))
+            self.scanExist = 1
+            return
 
-        r = requests.put(api_url, auth=(
-            auth_info[0], auth_info[1]), verify=False)
+        api_url = api_url + query_params
+        #r = requests.put(api_url, auth=(
+        #    auth_info[0], auth_info[1]), verify=False)
+        r = self.xnatapi(api_url, 'put', 1)
         if r.status_code < 400:
             logging.info('create scan successfully!')
         else:
@@ -193,8 +258,9 @@ class XnatImporter:
                 'resources/DICOM?format=DICOM&content=' +
                 params['scan_data_type'] + '_RAW',
             ])
-            r = requests.put(api_url, auth=(
-                auth_info[0], auth_info[1]), verify=False)
+            #r = requests.put(api_url, auth=(
+            #    auth_info[0], auth_info[1]), verify=False)
+            r = self.xnatapi(api_url, 'put', 1)
 
         elif params['session_data_type'] == 'RECON':
             api_url = '/'.join([
@@ -206,10 +272,15 @@ class XnatImporter:
                 'reconstructions/' +
                 params['scan_id'] + '/resources/NIFTI?format=NIFTI',
             ])
-            r = requests.put(api_url, auth=(
-                auth_info[0], auth_info[1]), verify=False)
+            #r = requests.put(api_url, auth=(
+            #    auth_info[0], auth_info[1]), verify=False)
+            r = self.xnatapi(api_url, 'put', 1)
 
         elif params['session_data_type'] == 'RAW':
+            if self.scanExist == 1:
+                logging.info('scan exist, skip resource!')
+                return
+
             api_url = '/'.join([
                 self.XNAT_BASE_URL, 'data',
                 'projects', params['project_id'],
@@ -218,9 +289,9 @@ class XnatImporter:
                 'scans', params['scan_id'],
                 'resources/DICOM',
             ])
-            #print(api_url)
-            r = requests.put(api_url, auth=(
-                auth_info[0], auth_info[1]), verify=False)
+            #r = requests.put(api_url, auth=(
+            #    auth_info[0], auth_info[1]), verify=False)
+            r = self.xnatapi(api_url, 'put', 1)
 
             api_url = '/'.join([
                 self.XNAT_BASE_URL, 'data',
@@ -230,9 +301,9 @@ class XnatImporter:
                 'scans', params['scan_id'],
                 'resources/METADATA',
             ])
-            #print(api_url)
-            r = requests.put(api_url, auth=(
-                auth_info[0], auth_info[1]), verify=False)
+            #r = requests.put(api_url, auth=(
+            #    auth_info[0], auth_info[1]), verify=False)
+            r = self.xnatapi(api_url, 'put', 1)
 
         if r.status_code < 400:
             logging.info('create resource successfully!')
@@ -310,6 +381,12 @@ class XnatImporter:
                         'resources/OTHERS/files/' + base_filename
                     ])
 
+                r = self.xnatapi(api_url, 'get', 1)
+                if r.status_code == 200:
+                    logging.info('{0} exist!'.format(api_url))
+                    self.results['exist'].append(file_name)
+                    return
+
                 if base_filename[-7:] == 'aim.xml' and pardir == 'METADATA':
                     # verify xml
                     if not self.verify_xml(file_name):
@@ -383,6 +460,7 @@ class XnatImporter:
             if index > 1 and len(dir_info[2]) > 0:
                 params = self.build_restapi_parameter(dir_info)
                 try:
+                    self.scanExist = 0
                     self.xnat_create_project(params, auth_info)
                     self.xnat_create_subject(params, auth_info)
                     self.xnat_create_session(params, auth_info)
