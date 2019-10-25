@@ -224,7 +224,10 @@ class XnatImporter:
 
     def xnat_create_scan(self, params, auth_info):
         #query_params = '?xsiType=xnat:' + params['xnat_data_type'] + '&xnat:' + params['xnat_data_type'] + '/type=' + params['scan_data_type']
-        query_params = '?xsiType=xnat:' + params['xnat_data_type']
+        # http://140.110.28.227/data/archive/projects/nchc_lca_dev_2019102514/\
+        #        subjects/NCHC02_S00268/experiments/NCHC02_E00228/scans/scan001?\
+        #format=json&xnat:ctScanData/type=unknow&xnat:ctScanData/quality=usable
+        query_params = '?xsiType=xnat:' + params['xnat_data_type'] + '&xnat:' + params['xnat_data_type'] + '/type=Unknow&xnat:' + params['xnat_data_type'] + '/quality=usable'
         api_url = '/'.join([
             self.XNAT_BASE_URL, 'data',
             'projects', params['project_id'],
