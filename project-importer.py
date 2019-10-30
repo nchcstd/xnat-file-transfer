@@ -111,7 +111,7 @@ class XnatImporter:
     def xnatapi(self, api, action='get', raw=0):
         cookies = dict(JSESSIONID=self.session_id)
         api_url = api
-        #print(api_url)
+        print(action, api_url)
 
         if action == 'get':
             api_url = '{0}?format=json'.format(api_url)
@@ -149,7 +149,7 @@ class XnatImporter:
 
         logging.info(dir_info)
 
-        enabled_data_type = ['cr', 'ct', 'mr', 'hd']
+        enabled_data_type = ['cr', 'ct', 'mr', 'hd', 'dx']
 
         params = {
             'project_id': dir_structure[start_pos + 1],
@@ -227,7 +227,14 @@ class XnatImporter:
         # http://140.110.28.227/data/archive/projects/nchc_lca_dev_2019102514/\
         #        subjects/NCHC02_S00268/experiments/NCHC02_E00228/scans/scan001?\
         #format=json&xnat:ctScanData/type=unknow&xnat:ctScanData/quality=usable
-        query_params = '?xsiType=xnat:' + params['xnat_data_type'] + '&xnat:' + params['xnat_data_type'] + '/type=Unknow&xnat:' + params['xnat_data_type'] + '/quality=usable'
+        origType = params['xnat_data_type']
+        sType = origType
+        print(params['xnat_data_type'])
+        if params['xnat_data_type'] == 'dxScanData':
+            sType = 'ctScanData'
+        print(sType)
+        query_params = '?xsiType=xnat:' + sType + '&xnat:' + sType + '/type=Unknow&xnat:' + sType + '/quality=usable'
+        #params['xnat_data_type'] = origType
         api_url = '/'.join([
             self.XNAT_BASE_URL, 'data',
             'projects', params['project_id'],
@@ -389,6 +396,9 @@ class XnatImporter:
                     logging.info('{0} exist!'.format(api_url))
                     self.results['exist'].append(file_name)
                     return
+                else:
+                    r = 0
+                    print("upload file...")
 
                 if base_filename[-7:] == 'aim.xml' and pardir == 'METADATA':
                     # verify xml
@@ -398,6 +408,7 @@ class XnatImporter:
                         continue
 
                 with open(file_name, 'rb') as fh:
+                    print("put", api_url)
                     file_data = fh.read()
                     r = requests.put(
                         api_url,
@@ -408,6 +419,7 @@ class XnatImporter:
                         verify=False
                     )
 
+                    print("rt code", r.status_code)
                     if r.status_code < 400:
                         self.results['success'].append(file_name)
 
