@@ -1,6 +1,8 @@
 import sys
 import configparser
 import os
+import csv
+
 """
     print project file export 
 """
@@ -29,6 +31,9 @@ class XnatExport:
         self.session_id = None
         self.authErr = 0
         #self.listProjects(auth_info)
+        self.lionsIndex = ''
+        self.lionsIndexName = ''
+        self.indexWriter = ''
 
     def scan_root_dir(self): 
         data_dirs = [] 
@@ -128,6 +133,7 @@ class XnatExport:
 
     def scansFromExperiment(self, experiment):
         data = self.xnatapi('experiments/{0}/scans'.format(experiment))
+        print("scans dump {}".format(data))
         return data
 
     def resourcesFromExperiment(self, experiment):
@@ -182,6 +188,14 @@ class XnatExport:
 
     def exportProject(self, project):
         print(project)
+        curpath = "{0}/data/export".format(os.getcwd())
+        csvbasepath = "{0}/{1}".format(curpath, project)
+        self.createDir(csvbasepath)
+        lionsIndexName = "{0}/lionsIndex-{1}.csv".format(csvbasepath, project)
+        lionsIndex = open(lionsIndexName, 'w')
+        indexWriter = csv.writer(lionsIndex)
+        indexWriter.writerow(['Project', 'subject', 'experiment', 'scan', 'fileCollection', 'sfileName', 'file', 'fileLink'])
+
         projectData = self.getProject(project)
         if projectData == '':
             raise
@@ -220,9 +234,9 @@ class XnatExport:
                         fileName = '/'.join([collectionpath, sfile['Name']])
                         print("URL: ", fileLink)
                         print("filename: ", fileName)
-                        
                         self.downloadFile(fileName, fileLink)
-                        
+                        indexWriter.writerow([project, subjectLabel, experimentLabel, scanID, sfile['collection'], sfile['Name'], fileName, fileLink])
+        lionsIndex.close()
 
 if __name__ == '__main__':
     proName=None
